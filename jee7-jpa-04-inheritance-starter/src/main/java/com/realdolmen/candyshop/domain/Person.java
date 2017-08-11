@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+//TODO: subclass from Tracked
 @Entity
-// TODO: subclass from Tracked
-public class Person {
+public class Person extends Tracked {
     @Id
     @GeneratedValue
     private Long id;
@@ -101,4 +101,5 @@ public class Person {
     void addOrderToHistory(Order order) {
         orderHistory.add(order);
     }
+
 }

@@ -3,15 +3,12 @@ package com.realdolmen.candyshop.domain;
 import com.realdolmen.candyshop.util.DateUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Person {
     @Id
-    @GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 200)
@@ -21,7 +18,7 @@ public class Person {
     private String lastName;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date birthDate;
 
     @Transient
@@ -37,7 +34,9 @@ public class Person {
     private List<CandyColor> candyPreferences = new ArrayList<>();
 
     // TODO: add the inverse of the many-to-one relationship between Order and Person named "orderHistory"
-
+    @OneToMany(mappedBy = "person")
+    private List<Order> orderHistory;
+    
     @PostLoad
     public void initializeAge() {
         this.age = DateUtils.yearsFrom(birthDate);
@@ -91,4 +90,22 @@ public class Person {
     public void setCandyPreferences(List<CandyColor> candyPreferences) {
         this.candyPreferences = candyPreferences;
     }
+
+	public List<Order> getOrderHistory() {
+		return orderHistory;
+	}
+
+	public void setOrderHistory(List<Order> orderHistory) {
+		this.orderHistory = orderHistory;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setAge(long age) {
+		this.age = age;
+	}
+    
+    
 }
