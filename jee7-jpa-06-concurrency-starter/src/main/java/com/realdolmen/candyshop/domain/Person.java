@@ -11,94 +11,110 @@ import java.util.List;
 @Entity
 @NamedQuery(name = "find all people", query = "select p from Person p order by p.lastName, p.firstName")
 // TODO: add an entity listener here
+@EntityListeners({TrackedEntityListener.class})
 public class Person extends Tracked {
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String firstName;
+	@Column(nullable = false, length = 200)
+	private String firstName;
 
-    @Column(nullable = false, length = 200)
-    private String lastName;
+	@Column(nullable = false, length = 200)
+	private String lastName;
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date birthDate;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date birthDate;
 
-    @Transient
-    private long age;
+	@Transient
+	private long age;
 
-    // TODO: add a version column
+	// TODO: add a version column
+	@Version
+	private int version;
 
-    @Embedded
-    private Address address;
+	@Embedded
+	private Address address;
 
-    @ElementCollection
-    @CollectionTable(name = "candy_preferences")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "candy_color")
-    private List<CandyColor> candyPreferences = new ArrayList<>();
+	@ElementCollection
+	@CollectionTable(name = "candy_preferences")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "candy_color")
+	private List<CandyColor> candyPreferences = new ArrayList<>();
 
-    @OneToMany(mappedBy = "person")
-    private List<Order> orderHistory = new ArrayList<>();
+	@OneToMany(mappedBy = "person")
+	private List<Order> orderHistory = new ArrayList<>();
 
-    // TODO: add a post load entity listener to calculate age from birthDate. Use DateUtils#yearsFrom()
+	// TODO: add a post load entity listener to calculate age from birthDate.
+	// Use DateUtils#yearsFrom()
+	@PostLoad
+	private void calculateAgeFromBirthDate(){
+		age = DateUtils.yearsFrom(birthDate);
+	}
+	
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public int getVersion() {
+		return version;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-        // TODO: update the age here as well
-    }
+	public Date getBirthDate() {
+		return birthDate;
+	}
 
-    public long getAge() {
-        return age;
-    }
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+		// TODO: update the age here as well
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public long getAge() {
+		return age;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public Address getAddress() {
+		return address;
+	}
 
-    public List<CandyColor> getCandyPreferences() {
-        return candyPreferences;
-    }
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
-    public void setCandyPreferences(List<CandyColor> candyPreferences) {
-        this.candyPreferences = candyPreferences;
-    }
+	public List<CandyColor> getCandyPreferences() {
+		return candyPreferences;
+	}
 
-    public List<Order> getOrderHistory() {
-        return Collections.unmodifiableList(this.orderHistory);
-    }
+	public void setCandyPreferences(List<CandyColor> candyPreferences) {
+		this.candyPreferences = candyPreferences;
+	}
 
-    void addOrderToHistory(Order order) {
-        orderHistory.add(order);
-    }
+	public List<Order> getOrderHistory() {
+		return Collections.unmodifiableList(this.orderHistory);
+	}
+
+	void addOrderToHistory(Order order) {
+		orderHistory.add(order);
+	}
 }

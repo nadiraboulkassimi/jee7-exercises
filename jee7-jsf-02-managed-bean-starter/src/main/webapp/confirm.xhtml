@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+
+</head>
+<f:view>
+    <h3><h:outputLabel value="Person data:"/></h3>
+    <h:outputLabel value="${registrationController.person.firstName}"/><br/>
+    <h:outputLabel value="${registrationController.person.lastName}"/><br/>
+    <h:outputLabel value="${registrationController.person.birthDate}"/>
+    <br/><br/>
+    <h3><h:outputLabel value="Data of all persons:"/></h3>
+    <h:dataTable value="#{registrationController.personList()}" var="o"
+                 styleClass="table table-inverse">
+
+        <h:column>
+            <!-- column header -->
+            <f:facet name="header">Firstname</f:facet>
+            <!-- row record -->
+            #{o.firstName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Lastname</f:facet>
+            #{o.lastName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">BirthDate</f:facet>
+            #{o.birthDate}
+        </h:column>
+    </h:dataTable>
+
+</f:view>
+</html>

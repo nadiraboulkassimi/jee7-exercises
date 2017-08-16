@@ -3,37 +3,37 @@ package com.realdolmen.candyshop.repository;
 import com.realdolmen.candyshop.domain.Person;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import java.util.List;
 
 public class PersonRepository {
-    EntityManager em;
+	EntityManager em;
 
+	public Person findPersonById(long id) {
+		return em.find(Person.class, id);
+	}
 
-    public Person findPersonById(long id) {
-        // TODO: implement this method
-        return null;
-    }
+	public List<Person> findAllPeople() {
+		TypedQuery<Person> persons = em.createNamedQuery("find all people", Person.class);
+		return persons.getResultList();
+	}
 
-    public List<Person> findAllPeople() {
-        // TODO: implement this method
-        return null;
-    }
+	public void savePerson(Person p) {
+		em.persist(p);
+	}
 
-    public void savePerson(Person p) {
-        // TODO: implement this method
-    }
+	public void deletePersonById(long id) {
+		em.remove(findPersonById(id));
+	}
 
-    public void deletePersonById(long id) {
-        // TODO: implement this method
-    }
+	public void updatePerson(Person p) {
+		em.merge(p);
+	}
 
-    public void updatePerson(Person p) {
-        // TODO: implement this method
-    }
-
-    public long countAllPeople() {
-        // TODO: implement this method
-        return 0;
-    }
+	public long countAllPeople() {
+		long count = (long) em.createQuery("SELECT count(p) FROM Person p").getSingleResult();
+		return count;
+	}
 
 }

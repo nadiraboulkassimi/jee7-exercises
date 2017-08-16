@@ -4,16 +4,21 @@ import com.realdolmen.candyshop.domain.Account;
 import com.realdolmen.candyshop.domain.Bug;
 import com.realdolmen.candyshop.repository.AccountRepository;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
 // TODO This should be a SLSB with remote access
+@Stateless
+@LocalBean
 public class Bank implements BankRemote {
     // TODO Retrieve the AccountRepository
+    @Inject
     private AccountRepository repository;
 
     @Override
@@ -22,13 +27,13 @@ public class Bank implements BankRemote {
     }
 
     @Override
-    public Account transfer(BigDecimal amount, Account from, Account to) throws Bug {
+    public Account transfer(BigDecimal amount, Account from, Account to) throws Bug, FileNotFoundException {
 
         from.setBalance(from.getBalance().subtract(amount));
         from = repository.save(from);
 
         // TODO Uncomment the Bug below to see if you handle transactions correctly
-        // Bug.causeMischief("i like it");
+        Bug.causeMischief("i like it");
 
         to.setBalance(to.getBalance().add(amount));
         return repository.save(to);

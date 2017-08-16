@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.naming.NamingException;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,10 +22,11 @@ public class BankIntegrationTest extends AbstractRemoteIntegrationTest {
     @BeforeClass
     public static void init() throws NamingException {
         // TODO Look up the BankRemote
+        bank = lookup("jee7-tx-starter/Bank!com.realdolmen.candyshop.service.BankRemote");
     }
 
     @Test
-    public void transferMoneyBetweenAccounts() {
+    public void transferMoneyBetweenAccounts() throws FileNotFoundException {
         System.out.println();
 
         System.out.println("Opening accounts");
