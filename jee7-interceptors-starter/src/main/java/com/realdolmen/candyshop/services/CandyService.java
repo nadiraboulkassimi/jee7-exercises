@@ -14,7 +14,6 @@ import java.util.List;
 @Stateless
 @Remote
 @LocalBean
-// TODO Apply the Interceptor
 @ActivateTimer
 public class CandyService implements CandyServiceRemote {
     @Inject

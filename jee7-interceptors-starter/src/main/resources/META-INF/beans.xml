@@ -9,4 +9,6 @@
     <interceptors>
         <class>com.realdolmen.candyshop.interceptors.MethodTimerInterceptor</class>
     </interceptors>
+
+
 </beans>

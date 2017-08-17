@@ -1,13 +1,11 @@
 package com.realdolmen.candyshop.interceptors;
 
-import com.realdolmen.candyshop.services.CandyService;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by NAUAZ44 on 16/08/2017.
@@ -15,12 +13,15 @@ import java.util.logging.Logger;
 @Interceptor
 @ActivateTimer
 public class MethodTimerInterceptor {
-    Logger logger = Logger.getLogger("CandyService");
+    @Inject
+    Logger logger;
 
     @AroundInvoke
     public Object method(InvocationContext ic) throws Exception{
         long start = System.nanoTime();
         try {
+            System.out.println("ABC");
+            logger.info(ic.getMethod().getName() + " IN DE METHOD TIMER INTERCEPTOR!" );
             return ic.proceed();
         } finally {
             long end = System.nanoTime();

@@ -1,6 +1,7 @@
 package com.realdolmen.candyshop.services;
 
 import com.realdolmen.candyshop.domain.Person;
+import com.realdolmen.candyshop.interceptors.ActivateTimer;
 import com.realdolmen.candyshop.repository.PersonRepository;
 
 import javax.ejb.LocalBean;
@@ -9,10 +10,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
-@Stateless
 @Remote
+@Stateless
 @LocalBean
-// TODO Apply the Interceptor
+@ActivateTimer
 public class PersonService implements PersonServiceRemote {
     @Inject
     PersonRepository personRepository;
